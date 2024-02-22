@@ -74,7 +74,7 @@ export default function CreateStuden () {
 
                     <label className='grid lg:grid-cols-[180px_1fr]'>
                         <span className='text-lg font-extralight'>Nombre Completo</span>
-                        <input name='fullname' onChange={HandleChange} type='text' className='w-full p-2 rounded-md border outline-none' placeholder='Nombre Nombre Apellido Apellido' />
+                        <input value={data.fullname} name='fullname' onChange={HandleChange} type='text' className='w-full p-2 rounded-md border outline-none' placeholder='Nombre Nombre Apellido Apellido' />
                         { error == 'input.fullname' && <p className='text-sm text-red-600'>Debes completar este campo</p> }
                     </label>
 

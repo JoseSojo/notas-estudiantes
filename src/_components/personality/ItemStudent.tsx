@@ -6,10 +6,11 @@ import Link from "next/link";
 import { ChangeEvent, FC, FormEvent, useState } from "react";
 
 interface Props {
-    student: Student
+    student: Student,
+    render: () => void
 }
 
-export const ItemStudent: FC<Props> = ({student}) => {
+export const ItemStudent: FC<Props> = ({student, render}) => {
     const [load, setLoad] = useState(false);
     const [fullnameState, setFullnameState] = useState(student.fullname);
     const [numState, setNumState] = useState(student.num);
@@ -39,6 +40,7 @@ export const ItemStudent: FC<Props> = ({student}) => {
 
             if(json.response == 'SUCCESS_CREATE_STUDENT') {
                 noti.update({ active:true, noti:{type:'SUCCESS',noti:'estudiante actualizado'} });
+                render();
             }   
             setLoad(false);        
         }
@@ -97,6 +99,7 @@ export const ItemStudent: FC<Props> = ({student}) => {
                     const response = await fetch('/api/student/', requetsOptions);
                     if(response.ok) {
                         noti.update({ active:true, noti:{type:'SUCCESS',noti:'estudiante eliminado'} });
+                        render();
                     }
                 }}
                 className='bg-red-400 hover:bg-red-500 text-white text-center font-bold'

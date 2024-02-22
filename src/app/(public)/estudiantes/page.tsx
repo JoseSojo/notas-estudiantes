@@ -24,6 +24,7 @@ export interface Student {
 
 export default function ListStuden () {
     const [load, setLoad] = useState(true);
+    const [render, setRender] = useState(false);
 
     const [students, setStudents] = useState<Student[] | null>(null);
 
@@ -42,7 +43,7 @@ export default function ListStuden () {
 
         Getting();
 
-    }, []);
+    }, [render]);
 
     return (
         <div className='w-full'>
@@ -61,7 +62,7 @@ export default function ListStuden () {
                             <span className='py-2 px-4 border-l border-x'></span>
                         </div>
                         {
-                            students.map(etu => <ItemStudent student={etu} key={etu.id} />)
+                            students.map(etu => <ItemStudent render={()=>{setRender(!render)}} student={etu} key={etu.id} />)
                         }
                     </section>
                 }
