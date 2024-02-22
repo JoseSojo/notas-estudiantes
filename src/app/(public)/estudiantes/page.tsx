@@ -53,9 +53,10 @@ export default function ListStuden () {
                     ? <p className='text-center pt-7 text-2xl font-extralight text-gray-700'>no hay estudiantes...</p>
                     : <section className='grid w-full px-10 pt-5'>
                         <p className='text-center pt-7 text-2xl font-extralight text-gray-700 mb-5'>Lista de estudiantes</p>
-                        <div className='w-full grid grid-cols-[150px_1fr_300px_100px] border bg-white'>
+                        <div className='w-full grid grid-cols-[150px_1fr_300px_100px_100px] border bg-white'>
                             <span className='py-2 px-4'>Numero</span>
                             <span className='py-2 px-4 border-l border-x'>Nombre Completo</span>
+                            <span className='py-2 px-4 border-l border-x flex justify-between items-center'><span>inasistencias</span> <span>asistencias</span></span>
                             <span className='py-2 px-4 border-l border-x'></span>
                             <span className='py-2 px-4 border-l border-x'></span>
                         </div>

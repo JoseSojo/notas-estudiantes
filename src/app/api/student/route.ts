@@ -44,8 +44,6 @@ export async function PUT(req: NextRequest) {
     const asistencias: string = data.get("asistencias") as string;
     const inasistencias: string = data.get("inasistencias") as string;
 
-    console.log(asistencias, inasistencias);
-
     const result = await prisma.studens.update({ 
         data: {
             asistencias:asistencias,
@@ -72,3 +70,18 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ response:'SUCCESS_GET_STUDENT', ok:true, body:result});
 }
+
+export async function DELETE(req: NextRequest) {
+    const prisma = new PrismaClient();
+
+    const data = await req.formData();
+    const deleteId: string = data.get("delete") as string;
+
+    console.log(`delete: ${deleteId}`);
+
+    const result = await prisma.studens.delete({ 
+        where: { id:Number(deleteId) } 
+    });
+
+    return NextResponse.json({ response:'SUCCESS_DELETE_STUDENT', ok:true, body:result});
+} 

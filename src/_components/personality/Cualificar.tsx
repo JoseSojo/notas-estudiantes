@@ -1,5 +1,6 @@
 "use client";
 
+import { useNotification } from "@/_contexts/Notification";
 import { FC, FormEvent, useState } from "react";
 
 interface Props {
@@ -13,6 +14,8 @@ interface Props {
 export const CualificarLapso: FC<Props> = ({username, ubication, code, id, actual}) => {
     const [load, setLoad] = useState(false);
     const [description, setDescription] = useState(actual ? actual : '');
+
+    const noti = useNotification();
 
     const HandleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -30,7 +33,9 @@ export const CualificarLapso: FC<Props> = ({username, ubication, code, id, actua
                 body: formData
             }
             const response = await fetch('/api/cualify', requetsOptions)
-            console.log(response);
+            if(response.ok) {
+                noti.update({ active:true, noti: { type:'SUCCESS', noti:'Estudiante cualificado' } });
+            }
             setLoad(false);
         }
 

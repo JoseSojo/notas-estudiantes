@@ -1,5 +1,6 @@
 "use client";
 
+import { useNotification } from "@/_contexts/Notification";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 
 export const FormEvaluar: FC<Props> = ({ title, nota, setNota, code, userId}) => {
     const [dev, ddsetEv] = useState([0,0,0,0]);
+    const noti = useNotification();
 
     const sendNota = async ({nt}:{nt:string}) => {
         console.log('actualizando')
@@ -25,7 +27,10 @@ export const FormEvaluar: FC<Props> = ({ title, nota, setNota, code, userId}) =>
             body: formData
         }
 
-        await fetch('/api/notas', RequestOptions);
+        const response = await fetch('/api/notas', RequestOptions);
+        if(response.ok) {
+            noti.update({ active:true, noti: { type:'SUCCESS', noti:'Estudiante evaluado' } });
+        }
     }
 
     return (

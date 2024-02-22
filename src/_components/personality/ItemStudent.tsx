@@ -1,5 +1,6 @@
 "use client";
 
+import { useNotification } from "@/_contexts/Notification";
 import { Student } from "@/app/(public)/estudiantes/page";
 import Link from "next/link";
 import { ChangeEvent, FC, FormEvent, useState } from "react";
@@ -14,6 +15,8 @@ export const ItemStudent: FC<Props> = ({student}) => {
     const [numState, setNumState] = useState(student.num);
     const [asistencias, setAsistencias] = useState(student.asistencias ? student.asistencias : 0);
     const [inasistencias, setInasistencias] = useState(student.inasistencias ? student.inasistencias : 0);
+
+    const noti = useNotification();
 
     const HandleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -35,7 +38,7 @@ export const ItemStudent: FC<Props> = ({student}) => {
             const json = await requets.json();
 
             if(json.response == 'SUCCESS_CREATE_STUDENT') {
-                console.log('estudiante actualizado');
+                noti.update({ active:true, noti:{type:'SUCCESS',noti:'estudiante actualizado'} });
             }   
             setLoad(false);        
         }
@@ -43,7 +46,7 @@ export const ItemStudent: FC<Props> = ({student}) => {
     }
 
     return (
-        <form className='w-full grid grid-cols-[150px_1fr_300px_100px] border bg-white' onSubmit={HandleSubmit}>
+        <form className='w-full grid grid-cols-[150px_1fr_300px_100px_100px] border bg-white' onSubmit={HandleSubmit}>
             <input 
                 onChange={(e)=>setNumState(e.target.value)} 
                 name='num' 
@@ -84,6 +87,21 @@ export const ItemStudent: FC<Props> = ({student}) => {
                 className='bg-indigo-400 hover:bg-indigo-500 text-white font-cold text-center'
             >
                 {load?'actualizando...':'actualizar'}
+            </button>
+            <button
+                type='button'
+                onClick={async()=>{
+                    const form = new FormData();
+                    form.append('delete', `${student.id}`)
+                    const requetsOptions = { method: 'DELETE', body: form }
+                    const response = await fetch('/api/student/', requetsOptions);
+                    if(response.ok) {
+                        noti.update({ active:true, noti:{type:'SUCCESS',noti:'estudiante eliminado'} });
+                    }
+                }}
+                className='bg-red-400 hover:bg-red-500 text-white text-center font-bold'
+            >
+                eliminar
             </button>
         </form>
     )

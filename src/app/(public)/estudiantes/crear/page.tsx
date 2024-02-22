@@ -1,11 +1,14 @@
 "use client";
 
+import { useNotification } from "@/_contexts/Notification";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function CreateStuden () {
     const [data, setData] = useState({fullname:'',num:0});
     const [error, setError] = useState<string | null>(null);
     const [load, setLoad] = useState(false);
+
+    const noti = useNotification();
 
     const HandleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const prev = {
@@ -46,7 +49,8 @@ export default function CreateStuden () {
             const json = await requets.json();
 
             if(json.response == 'SUCCESS_CREATE_STUDENT') {
-                console.log('estudiante creado');
+                noti.update({ active:true, noti: { type:'SUCCESS', noti:'Estudiante creado' } });
+
                 const prevData = {...data, fullname:''};
                 setData(prevData);
             }   
